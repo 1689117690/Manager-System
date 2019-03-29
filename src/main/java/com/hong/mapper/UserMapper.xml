@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hong.dao.UserMapper">
+    <!-- 查询所有user -->  
+    <select id="queryAll" resultType="User" >  
+        select * from Users
+    </select>
+    
+    <insert id="addUser" parameterType="com.hong.entity.User">
+    	<selectKey keyProperty="userId" resultType="java.lang.Integer" order="BEFORE">
+    		SELECT users_sequence.NEXTVAL FROM DUAL
+    	</selectKey>
+    	 insert into users(userId,username,account,birth,address,mobile)
+    	 values(
+    		#{userId,jdbcType=NUMERIC},#{username,jdbcType=VARCHAR},#{account,jdbcType=VARCHAR},
+        	#{birth,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR}
+        )
+    </insert>
+    
+    <update id="modifyUser">
+    	update users
+    	<set>
+    		<if test="username != null and username !='' ">
+                username = #{username},
+            </if>
+            <if test="account != null and account !='' ">
+            	account = #{account},
+            </if>
+            <if test="birth != null and birth !='' ">
+            	birth = #{birth},
+            </if>
+            <if test="address != null and address !='' ">
+            	address = #{address},
+            </if>
+            <if test="mobile != null and mobile !='' ">
+            	mobile = #{mobile},
+            </if>
+    	</set>
+    	<where>
+    		userId = #{userId}
+    	</where>
+    </update>
+    
+    <delete id="deleteByuserId" parameterType="java.lang.Integer">
+    	delete from users where userId = #{userId}
+    </delete>
+    
+    <select id="getUserListByNameOrAccount" parameterType="java.lang.String" resultType="User">
+    	select * from users
+    	where account like concat(concat('%',#{account}),'%') or username like concat(concat('%',#{username}),'%')
+    	<!-- <where>
+    		<choose>
+    			<when test="condition != null and condition !=''">
+    				account like concat(concat('%',#{account}),'%')
+    			</when>
+    		</choose>
+    	</where> -->
+    </select>
+</mapper>
