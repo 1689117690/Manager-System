@@ -3,4 +3,4 @@
 数据库：Oracle数据库 需要修改jdbc.propertites及相关数据库配置文件
 开发工具：Eclipse
 页面：jsp采用Extjs编写
-登录首页：https://github.com/1689117690/Manager-System/blob/master/1.png
+登录首页：(https://github.com/1689117690/Manager-System/blob/master/1.png)
